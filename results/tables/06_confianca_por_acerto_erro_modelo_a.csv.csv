@@ -1,0 +1,3 @@
+﻿acerto_modelo_a,n,confianca_media,confianca_mediana,confianca_p10,confianca_p90,resultado
+False,1136,0.9226311619718309,0.935,0.851,0.976,Erros
+True,3864,0.9228258281573499,0.933,0.854,0.979,Acertos

@@ -1,0 +1,49 @@
+import unicodedata
+import re
+import matplotlib.pyplot as plt
+import pandas as pd
+
+def pretty_label(value):
+    value = str(value).replace("_", " ").strip()
+    value = str(value).replace("cao", "ção").strip()
+    return value.title()
+
+def normalize_text(value, title=False):
+    value = str(value).strip().lower()
+    value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("utf-8")
+    value = re.sub(r"\s+", " ", value)
+    if title:
+        value = value.title()
+        value = " ".join([w.lower() if len(w) <= 3 else w for w in value.split()])
+    return value
+
+def save_figure(fig, fig_dir, name):
+    path = fig_dir / f"{name}.png"
+    fig.tight_layout()
+    fig.savefig(path, dpi=300, bbox_inches="tight")
+    plt.show()
+
+def save_table(tab, tab_dir, name, index=False):
+    path = tab_dir / f"{name}.csv"
+    tab.to_csv(path, index=index, encoding="utf-8-sig")
+    return path
+
+def create_date_columns(df):
+    df["month"] = df["data_abertura"].dt.to_period("M").dt.to_timestamp()
+    df["week"] = df["data_abertura"].dt.to_period("W").dt.to_timestamp()
+    return df
+
+def load_and_prepare_data(path):
+    df = pd.read_csv(path, dtype={"id_chamado": str})
+    df["data_abertura"] = pd.to_datetime(df["data_abertura"], errors="coerce")
+    df["texto"] = df["texto"].fillna("").astype(str).str.strip()
+    df["bairro"] = df["bairro"].astype(str).str.strip()
+    df["bairro"] = df["bairro"].map(normalize_text)
+    df["canal"] = df["canal"].astype(str).str.strip()
+    df["categoria_real"] = df["categoria_real"].astype(str).str.strip()
+    df["texto_limpo"] = df["texto"].str.replace(r"\s+", " ", regex=True).str.strip()
+    df["tamanho_texto_palavras"] = df["texto"].str.replace(r"\s+", " ", regex=True).str.strip().str.split().str.len()
+    df["palavra_count"] = df["texto"].str.split().str.len()
+    df["bool_texto_curto"] = df["palavra_count"] <= 5
+    df = create_date_columns(df)
+    return  df
