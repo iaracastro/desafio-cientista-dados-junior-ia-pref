@@ -2,10 +2,21 @@ import unicodedata
 import re
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
+from sklearn.metrics import (
+    accuracy_score,
+    balanced_accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    cohen_kappa_score,
+    matthews_corrcoef,
+)
 
 def pretty_label(value):
     value = str(value).replace("_", " ").strip()
-    value = str(value).replace("cao", "ção").strip()
+    value = str(value).replace("cao", "ção")
+    value = str(value).replace("Publica", "Pública")
     return value.title()
 
 def normalize_text(value, title=False):
@@ -47,3 +58,27 @@ def load_and_prepare_data(path):
     df["bool_texto_curto"] = df["palavra_count"] <= 5
     df = create_date_columns(df)
     return  df
+
+def calcular_metricas_globais(y_true, y_pred, labels):
+    return {
+        "Acurácia": accuracy_score(y_true, y_pred),
+        "Acurácia Balanceada": balanced_accuracy_score(y_true, y_pred),
+        "Precisão Macro": precision_score(y_true, y_pred, labels=labels, average="macro", zero_division=0),
+        "Recall Macro": recall_score(y_true, y_pred, labels=labels, average="macro", zero_division=0),
+        "F1 Macro": f1_score(y_true, y_pred, labels=labels, average="macro", zero_division=0),
+        "Precisão Ponderada": precision_score(y_true, y_pred, labels=labels, average="weighted", zero_division=0),
+        "Recall Ponderada": recall_score(y_true, y_pred, labels=labels, average="weighted", zero_division=0),
+        "F1 Ponderada": f1_score(y_true, y_pred, labels=labels, average="weighted", zero_division=0),
+        "Kappa de Cohen": cohen_kappa_score(y_true, y_pred, labels=labels),
+        "Coeficiente de Matthews": matthews_corrcoef(y_true, y_pred)
+    }
+
+def gerar_amostra_bootstrap_estratificada(df, coluna_estrato, rng):
+    indices = []
+    for _, grupo in df.groupby(coluna_estrato):
+        idx = grupo.index.to_numpy()
+        idx_boot = rng.choice(idx, size=len(idx), replace=True)
+        indices.append(idx_boot)
+
+    indices = np.concatenate(indices)
+    return df.loc[indices].copy()
