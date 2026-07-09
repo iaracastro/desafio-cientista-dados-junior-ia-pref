@@ -20,7 +20,8 @@ def pretty_label(value: Any) -> str:
     """Formata valores categóricos para exibição em tabelas e gráficos."""
     value = str(value).replace("_", " ").strip()
     value = value.replace("cao", "ção")
-    value = value.replace("Publica", "Pública")
+    value = value.replace("publica", "pública")
+    value = value.replace("arvore", "árvore")
     return value.title()
 
 def normalize_text(value: Any, title: bool = False) -> str:
