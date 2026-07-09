@@ -162,7 +162,7 @@ Foram avaliados:
 
 ---
 
-## Principais Resultados por Etapa
+## Principais Resultados
 
 ### Parte 1 - Análise Exploratória
 
