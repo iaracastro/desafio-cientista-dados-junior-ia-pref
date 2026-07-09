@@ -81,7 +81,6 @@ def calcular_metricas_globais(y_true: Iterable[Any], y_pred: Iterable[Any], labe
     """Calcula métricas globais de classificação para um conjunto de rótulos."""
     return {
         "Acurácia": accuracy_score(y_true, y_pred),
-        "Acurácia Balanceada": balanced_accuracy_score(y_true, y_pred),
         "Precisão Macro": precision_score(y_true, y_pred, labels=labels, average="macro", zero_division=0),
         "Recall Macro": recall_score(y_true, y_pred, labels=labels, average="macro", zero_division=0),
         "F1 Macro": f1_score(y_true, y_pred, labels=labels, average="macro", zero_division=0),
