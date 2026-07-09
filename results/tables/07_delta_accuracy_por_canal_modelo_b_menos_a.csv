@@ -1,4 +1,0 @@
-﻿variavel,grupo,grupo_pt,n,accuracy_a,accuracy_b,delta_accuracy_b_menos_a,a_acerta_b_erra,b_acerta_a_erra,ganho_liquido_b,p_valor_mcnemar,metodo_mcnemar,p_valor_mcnemar_ajustado_bh
-canal,telefone_1746,Telefone 1746,1724,0.781322505800464,0.8584686774941995,0.0771461716937355,189,322,133,5.24092121579417e-09,McNemar qui-quadrado com correção de continuidade,7.861381823691256e-09
-canal,portal_web,Portal Web,868,0.7799539170506913,0.8629032258064516,0.08294930875576034,91,163,72,8.391813975586842e-06,McNemar qui-quadrado com correção de continuidade,8.391813975586842e-06
-canal,app_1746,App 1746,2408,0.7641196013289037,0.8758305647840532,0.11171096345514953,237,506,269,8.200170409722496e-23,McNemar qui-quadrado com correção de continuidade,2.460051122916749e-22

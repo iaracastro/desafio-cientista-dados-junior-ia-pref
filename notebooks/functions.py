@@ -9,7 +9,6 @@ from typing import Any, Dict, Iterable, Union
 from matplotlib.figure import Figure
 from sklearn.metrics import (
     accuracy_score,
-    balanced_accuracy_score,
     precision_score,
     recall_score,
     f1_score,
